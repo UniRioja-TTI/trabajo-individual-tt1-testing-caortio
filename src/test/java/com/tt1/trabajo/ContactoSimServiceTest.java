@@ -1,43 +1,51 @@
 package com.tt1.trabajo;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.*;
-import org.junit.jupiter.api.*;
-import modelo.*;
-import servicios.ContactoSimService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ContactoSimServiceTest {
-	
-	private ContactoSimService service;
+import modelo.DatosSimulation;
+import modelo.DatosSolicitud;
+import servicios.ContactoSimService;
+import java.util.Map;
+import static org.junit.jupiter.api.Assertions.*;
+
+class ContactoSimServiceTest {
+
+    private ContactoSimService service;
 
     @BeforeEach
     void setUp() {
-        service = new ContactoSimService();  
+        service = new ContactoSimService();
     }
-    
+
     @Test
     void testGetEntities() {
-        List<Entidad> entities = service.getEntities();
-        assertNotNull(entities);
-        assertTrue(entities.isEmpty());
+        var entidades = service.getEntities();
+        assertFalse(entidades.isEmpty());
+        assertTrue(entidades.size() >= 5);
     }
 
     @Test
     void testSolicitarSimulation() {
-    	Map<Integer,Integer> nums = new HashMap<Integer, Integer>();
-        DatosSolicitud sol = new DatosSolicitud(nums); 
-        int ticket = service.solicitarSimulation(sol);
-        assertEquals(0, ticket);
+        var cantidades = Map.of(1, 2, 3, 1);
+        var solicitud = new DatosSolicitud(cantidades); 
+        int ticket = service.solicitarSimulation(solicitud);
+        assertTrue(ticket > 0);
     }
 
     @Test
     void testDescargarDatos() {
-        DatosSimulation result = service.descargarDatos(999);
-        assertNull(result);
-    }
+        DatosSimulation resultado1 = service.descargarDatos(1005);
+        DatosSimulation resultado2 = service.descargarDatos(999999);
+        DatosSimulation resultado3 = service.descargarDatos(-1);
 
+        assertNull(resultado1);
+        assertNull(resultado2);
+        assertNull(resultado3);
+    }
+    
     @Test
     void testIsValidEntityId() {
-        assertFalse(service.isValidEntityId());
+        assertTrue(service.isValidEntityId());
     }
 }
