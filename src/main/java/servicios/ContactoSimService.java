@@ -1,6 +1,8 @@
 package servicios;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,8 @@ import java.util.Random;
 public class ContactoSimService implements InterfazContactoSim{
 
 	private static final Logger logger = LoggerFactory.getLogger(ContactoSimService.class);
-	private int ticketCounter = 5;
 	private final Random random = new Random();
+    private final Map<Integer, DatosSolicitud> solicitudes = new HashMap<>();
 	private final List<Entidad> entidadesDisponibles = List.of(
 			new Entidad(1, "Movistar", "España"),
             new Entidad(2, "Vodafone", "España"),
@@ -36,15 +38,16 @@ public class ContactoSimService implements InterfazContactoSim{
             return -1;
         }
 
-        int ticket = ticketCounter++;
-        logger.info("Nueva solicitud aceptada → Ticket: {}", ticket);
+        int token = random.nextInt(100000);
+        solicitudes.put(token, sol);
+        logger.info("Solicitud almacenada con token {}", token);
 
-		return ticket;
+		return token;
 	}
 
 	@Override
 	public DatosSimulation descargarDatos(int ticket) {
-		logger.debug("Consulta de datos para ticket no implementada aún: {}", ticket);
+		logger.debug("Consulta de datos para ticket {}", ticket);
         return null;
     }
 

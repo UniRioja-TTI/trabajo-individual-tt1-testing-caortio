@@ -25,12 +25,12 @@ class ContactoSimServiceTest {
         assertTrue(entidades.size() >= 5);
     }
 
-    @Test
+    @Test 
     void testSolicitarSimulation() {
         var cantidades = Map.of(1, 2, 3, 1);
         var solicitud = new DatosSolicitud(cantidades); 
         int ticket = service.solicitarSimulation(solicitud);
-        assertTrue(ticket > 0);
+        assertTrue(ticket > 1);
     }
 
     @Test

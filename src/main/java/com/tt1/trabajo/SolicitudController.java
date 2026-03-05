@@ -18,7 +18,7 @@ import modelo.DatosSolicitud;
 
 @Controller
 public class SolicitudController {
-	
+	 
 	private final InterfazContactoSim ics;
 	private final Logger logger;
 	
