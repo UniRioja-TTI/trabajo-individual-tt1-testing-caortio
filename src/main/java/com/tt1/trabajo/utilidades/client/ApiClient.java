@@ -66,6 +66,7 @@ import com.tt1.trabajo.utilidades.client.auth.HttpBasicAuth;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -1295,10 +1296,10 @@ public class ApiClient {
         Request request = null;
 
         if (callback != null && reqBody != null) {
-            ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, callback);
+            ProgressRequestBody progressRequestBody = new ProgressRequestBody((okhttp3.RequestBody) reqBody, callback);
             request = reqBuilder.method(method, progressRequestBody).build();
         } else {
-            request = reqBuilder.method(method, reqBody).build();
+            request = reqBuilder.method(method, (okhttp3.RequestBody) reqBody).build();
         }
 
         return request;
@@ -1433,7 +1434,7 @@ public class ApiClient {
      * @param formParams Form parameters in the form of Map
      * @return RequestBody
      */
-    public RequestBody buildRequestBodyFormEncoding(Map<String, Object> formParams) {
+    public FormBody buildRequestBodyFormEncoding(Map<String, Object> formParams) {
         okhttp3.FormBody.Builder formBuilder = new okhttp3.FormBody.Builder();
         for (Entry<String, Object> param : formParams.entrySet()) {
             formBuilder.add(param.getKey(), parameterToString(param.getValue()));
