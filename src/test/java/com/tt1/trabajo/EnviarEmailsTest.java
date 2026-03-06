@@ -1,10 +1,12 @@
 package com.tt1.trabajo;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
 import modelo.Destinatario;
 import servicios.EnviarEmailsService;
-import static org.junit.jupiter.api.Assertions.*;
 
 class EmailServiceTest {
 

@@ -3,16 +3,16 @@ package servicios;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import interfaces.InterfazContactoSim;
 import modelo.DatosSimulation;
 import modelo.DatosSolicitud;
 import modelo.Entidad;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.Random;
 
 @Service
 public class ContactoSimService implements InterfazContactoSim{
