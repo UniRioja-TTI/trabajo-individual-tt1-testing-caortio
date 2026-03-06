@@ -35,6 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.TypeAdapter;
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 import io.gsonfire.GsonFireBuilder;
 
@@ -186,16 +187,6 @@ public class JSON {
      * Gson TypeAdapter for Byte Array type
      */
     public static class ByteArrayAdapter extends TypeAdapter<byte[]> {
-
-        @Override
-        public void write(JsonWriter out, byte[] value) throws IOException {
-            if (value == null) {
-                out.nullValue();
-            } else {
-                out.value(ByteString.of(value).base64());
-            }
-        }
-
         @Override
         public byte[] read(JsonReader in) throws IOException {
             switch (in.peek()) {
@@ -208,6 +199,16 @@ public class JSON {
                     return byteString.toByteArray();
             }
         }
+
+		@Override
+		public void write(com.google.gson.stream.JsonWriter out, byte[] value) throws IOException {
+			if (value == null) {
+                out.nullValue();
+            } else {
+                out.value(ByteString.of(value).base64());
+            }
+			
+		}
     }
 
     /**
@@ -230,15 +231,6 @@ public class JSON {
         }
 
         @Override
-        public void write(JsonWriter out, OffsetDateTime date) throws IOException {
-            if (date == null) {
-                out.nullValue();
-            } else {
-                out.value(formatter.format(date));
-            }
-        }
-
-        @Override
         public OffsetDateTime read(JsonReader in) throws IOException {
             switch (in.peek()) {
                 case NULL:
@@ -252,6 +244,16 @@ public class JSON {
                     return OffsetDateTime.parse(date, formatter);
             }
         }
+
+		@Override
+		public void write(com.google.gson.stream.JsonWriter out, OffsetDateTime date) throws IOException {
+			if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(formatter.format(date));
+            }
+			
+		}
     }
 
     /**
@@ -274,15 +276,6 @@ public class JSON {
         }
 
         @Override
-        public void write(JsonWriter out, LocalDate date) throws IOException {
-            if (date == null) {
-                out.nullValue();
-            } else {
-                out.value(formatter.format(date));
-            }
-        }
-
-        @Override
         public LocalDate read(JsonReader in) throws IOException {
             switch (in.peek()) {
                 case NULL:
@@ -293,6 +286,16 @@ public class JSON {
                     return LocalDate.parse(date, formatter);
             }
         }
+
+		@Override
+		public void write(com.google.gson.stream.JsonWriter out, LocalDate date) throws IOException {
+			if (date == null) {
+                out.nullValue();
+            } else {
+                out.value(formatter.format(date));
+            }
+			
+		}
     }
 
     public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
@@ -323,21 +326,6 @@ public class JSON {
         }
 
         @Override
-        public void write(JsonWriter out, java.sql.Date date) throws IOException {
-            if (date == null) {
-                out.nullValue();
-            } else {
-                String value;
-                if (dateFormat != null) {
-                    value = dateFormat.format(date);
-                } else {
-                    value = date.toString();
-                }
-                out.value(value);
-            }
-        }
-
-        @Override
         public java.sql.Date read(JsonReader in) throws IOException {
             switch (in.peek()) {
                 case NULL:
@@ -355,6 +343,22 @@ public class JSON {
                     }
             }
         }
+
+		@Override
+		public void write(com.google.gson.stream.JsonWriter out, java.sql.Date date) throws IOException {
+			if (date == null) {
+                out.nullValue();
+            } else {
+                String value;
+                if (dateFormat != null) {
+                    value = dateFormat.format(date);
+                } else {
+                    value = date.toString();
+                }
+                out.value(value);
+            }
+			
+		}
     }
 
     /**
@@ -373,21 +377,6 @@ public class JSON {
 
         public void setFormat(DateFormat dateFormat) {
             this.dateFormat = dateFormat;
-        }
-
-        @Override
-        public void write(JsonWriter out, Date date) throws IOException {
-            if (date == null) {
-                out.nullValue();
-            } else {
-                String value;
-                if (dateFormat != null) {
-                    value = dateFormat.format(date);
-                } else {
-                    value = ISO8601Utils.format(date, true);
-                }
-                out.value(value);
-            }
         }
 
         @Override
@@ -412,6 +401,22 @@ public class JSON {
                 throw new JsonParseException(e);
             }
         }
+
+		@Override
+		public void write(com.google.gson.stream.JsonWriter out, Date date) throws IOException {
+			if (date == null) {
+                out.nullValue();
+            } else {
+                String value;
+                if (dateFormat != null) {
+                    value = dateFormat.format(date);
+                } else {
+                    value = ISO8601Utils.format(date, true);
+                }
+                out.value(value);
+            }
+			
+		}
     }
 
     public static void setDateFormat(DateFormat dateFormat) {

@@ -23,6 +23,7 @@ import okio.Buffer;
 import okio.BufferedSink;
 import okio.ForwardingSink;
 import okio.Okio;
+import okio.Source;
 
 public class ProgressRequestBody extends RequestBody {
 
@@ -47,13 +48,13 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        BufferedSink bufferedSink = Okio.buffer(sink(sink));
+        BufferedSink bufferedSink = (BufferedSink) Okio.buffer((Source) sink((Sink) sink));
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
     }
 
     private Sink sink(Sink sink) {
-        return new ForwardingSink(sink) {
+        return (Sink) new ForwardingSink((okio.Sink) sink) {
 
             long bytesWritten = 0L;
             long contentLength = 0L;
