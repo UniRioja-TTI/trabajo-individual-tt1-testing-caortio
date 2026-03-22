@@ -10,9 +10,19 @@
  * Do not edit the class manually.
  */
 
-package com.tt1.trabajo.utilidades.client;
 
+package org.openapitools.client;
 
+import okhttp3.*;
+import okhttp3.internal.http.HttpMethod;
+import okhttp3.internal.tls.OkHostnameVerifier;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.Okio;
+
+import javax.net.ssl.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,56 +39,22 @@ import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
-import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.function.ServerRequest.Headers;
-
-import com.tt1.trabajo.utilidades.client.auth.ApiKeyAuth;
-import com.tt1.trabajo.utilidades.client.auth.Authentication;
-import com.tt1.trabajo.utilidades.client.auth.HttpBasicAuth;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.internal.tls.OkHostnameVerifier;
-import okhttp3.logging.HttpLoggingInterceptor;
-import okhttp3.logging.HttpLoggingInterceptor.Level;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.Okio;
+import org.openapitools.client.auth.Authentication;
+import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.ApiKeyAuth;
 
 /**
  * <p>ApiClient class.</p>
@@ -958,7 +934,7 @@ public class ApiClient {
             return (T) downloadFileFromResponse(response);
         }
 
-        ResponseBody respBody = (ResponseBody) response.body();
+        ResponseBody respBody = response.body();
         if (respBody == null) {
             return null;
         }
@@ -971,7 +947,7 @@ public class ApiClient {
         try {
             if (isJsonMime(contentType)) {
                 if (returnType.equals(String.class)) {
-                    String respBodyString = respBody.toString();
+                    String respBodyString = respBody.string();
                     if (respBodyString.isEmpty()) {
                         return null;
                     }
@@ -979,10 +955,10 @@ public class ApiClient {
                     return JSON.deserialize(respBodyString, returnType);
                 } else {
                     // Use InputStream-based deserialize which supports responses > 2GB
-                    return JSON.deserialize(((okhttp3.ResponseBody) respBody).byteStream(), returnType);
+                    return JSON.deserialize(respBody.byteStream(), returnType);
                 }
             } else if (returnType.equals(String.class)) {
-                String respBodyString = respBody.toString();
+                String respBodyString = respBody.string();
                 if (respBodyString.isEmpty()) {
                     return null;
                 }
@@ -1010,24 +986,24 @@ public class ApiClient {
      * @throws org.openapitools.client.ApiException If fail to serialize the given object
      */
     public RequestBody serialize(Object obj, String contentType) throws ApiException {
-    	MediaType mediaType = MediaType.parse(contentType);
-
         if (obj instanceof byte[]) {
-            // Binary (byte array) body parameter support
-            return RequestBody.create((byte[]) obj, mediaType);
+            // Binary (byte array) body parameter support.
+            return RequestBody.create((byte[]) obj, MediaType.parse(contentType));
         } else if (obj instanceof File) {
-            // File body parameter support
-            return RequestBody.create((File) obj, mediaType);
+            // File body parameter support.
+            return RequestBody.create((File) obj, MediaType.parse(contentType));
         } else if ("text/plain".equals(contentType) && obj instanceof String) {
-            // Plain text support
-            return RequestBody.create((String) obj, mediaType);
+            return RequestBody.create((String) obj, MediaType.parse(contentType));
         } else if (isJsonMime(contentType)) {
-            // JSON support
-            String content = JSON.serialize(obj); // Asume que JSON.serialize nunca devuelve null
-            return RequestBody.create(content, mediaType);
+            String content;
+            if (obj != null) {
+                content = JSON.serialize(obj);
+            } else {
+                content = null;
+            }
+            return RequestBody.create(content, MediaType.parse(contentType));
         } else if (obj instanceof String) {
-            // Fallback for any other string content
-            return RequestBody.create((String) obj, mediaType);
+            return RequestBody.create((String) obj, MediaType.parse(contentType));
         } else {
             throw new ApiException("Content type \"" + contentType + "\" is not supported");
         }
@@ -1296,10 +1272,10 @@ public class ApiClient {
         Request request = null;
 
         if (callback != null && reqBody != null) {
-            ProgressRequestBody progressRequestBody = new ProgressRequestBody((okhttp3.RequestBody) reqBody, callback);
+            ProgressRequestBody progressRequestBody = new ProgressRequestBody(reqBody, callback);
             request = reqBuilder.method(method, progressRequestBody).build();
         } else {
-            request = reqBuilder.method(method, (okhttp3.RequestBody) reqBody).build();
+            request = reqBuilder.method(method, reqBody).build();
         }
 
         return request;
@@ -1434,7 +1410,7 @@ public class ApiClient {
      * @param formParams Form parameters in the form of Map
      * @return RequestBody
      */
-    public FormBody buildRequestBodyFormEncoding(Map<String, Object> formParams) {
+    public RequestBody buildRequestBodyFormEncoding(Map<String, Object> formParams) {
         okhttp3.FormBody.Builder formBuilder = new okhttp3.FormBody.Builder();
         for (Entry<String, Object> param : formParams.entrySet()) {
             formBuilder.add(param.getKey(), parameterToString(param.getValue()));

@@ -11,14 +11,17 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.model;
+package org.openapitools.client.model;
 
-import java.util.Map;
+import org.openapitools.client.ApiException;
 import java.util.Objects;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Abstract class for oneOf,anyOf schemas defined in OpenAPI spec
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public abstract class AbstractOpenApiSchema {
 
     // store the actual instance of the schema/object

@@ -11,7 +11,10 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.auth;
+package org.openapitools.client.auth;
+
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Pair;
 
 import java.net.URI;
 import java.util.List;
@@ -19,9 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import com.tt1.trabajo.utilidades.client.ApiException;
-import com.tt1.trabajo.utilidades.client.Pair;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class HttpBearerAuth implements Authentication {
   private final String scheme;
   private Supplier<String> tokenSupplier;
@@ -57,18 +58,18 @@ public class HttpBearerAuth implements Authentication {
     this.tokenSupplier = tokenSupplier;
   }
 
-  private static String upperCaseBearer(String scheme) {
-    return ("bearer".equalsIgnoreCase(scheme)) ? "Bearer" : scheme;
-  }
-
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams,
-		String payload, String method, URI uri) throws ApiException {
-	String bearerToken = Optional.ofNullable(tokenSupplier).map(Supplier::get).orElse(null);
+                            String payload, String method, URI uri) throws ApiException {
+    String bearerToken = Optional.ofNullable(tokenSupplier).map(Supplier::get).orElse(null);
     if (bearerToken == null) {
       return;
     }
 
     headerParams.put("Authorization", (scheme != null ? upperCaseBearer(scheme) + " " : "") + bearerToken);
+  }
+
+  private static String upperCaseBearer(String scheme) {
+    return ("bearer".equalsIgnoreCase(scheme)) ? "Bearer" : scheme;
   }
 }

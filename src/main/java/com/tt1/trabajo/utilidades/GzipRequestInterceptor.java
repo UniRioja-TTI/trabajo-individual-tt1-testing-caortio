@@ -11,22 +11,15 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client;
+package org.openapitools.client;
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-
-import org.springframework.boot.autoconfigure.web.WebProperties.Resources.Chain;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import okio.Buffer;
 import okio.BufferedSink;
 import okio.GzipSink;
 import okio.Okio;
+
+import java.io.IOException;
 
 /**
  * Encodes request bodies using gzip.
@@ -43,68 +36,50 @@ class GzipRequestInterceptor implements Interceptor {
 
         Request compressedRequest = originalRequest.newBuilder()
                                                    .header("Content-Encoding", "gzip")
-                                                   .method(originalRequest.method(), (okhttp3.RequestBody) forceContentLength(gzip(originalRequest.body())))
+                                                   .method(originalRequest.method(), forceContentLength(gzip(originalRequest.body())))
                                                    .build();
         return chain.proceed(compressedRequest);
     }
 
     private RequestBody forceContentLength(final RequestBody requestBody) throws IOException {
         final Buffer buffer = new Buffer();
-        ((okhttp3.RequestBody) requestBody).writeTo(buffer);
+        requestBody.writeTo(buffer);
         return new RequestBody() {
+            @Override
             public MediaType contentType() {
-                return ((okhttp3.RequestBody) requestBody).contentType();
+                return requestBody.contentType();
             }
 
+            @Override
             public long contentLength() {
                 return buffer.size();
             }
 
+            @Override
             public void writeTo(BufferedSink sink) throws IOException {
                 sink.write(buffer.snapshot());
             }
-
-			@Override
-			public Class<? extends Annotation> annotationType() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean required() {
-				// TODO Auto-generated method stub
-				return false;
-			}
         };
     }
 
-    private RequestBody gzip(final okhttp3.RequestBody requestBody) {
+    private RequestBody gzip(final RequestBody body) {
         return new RequestBody() {
+            @Override
             public MediaType contentType() {
-                return ((okhttp3.RequestBody) requestBody).contentType();
+                return body.contentType();
             }
 
+            @Override
             public long contentLength() {
                 return -1; // We don't know the compressed length in advance!
             }
 
+            @Override
             public void writeTo(BufferedSink sink) throws IOException {
                 BufferedSink gzipSink = Okio.buffer(new GzipSink(sink));
-                ((okhttp3.RequestBody) requestBody).writeTo(gzipSink);
+                body.writeTo(gzipSink);
                 gzipSink.close();
             }
-
-			@Override
-			public Class<? extends Annotation> annotationType() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean required() {
-				// TODO Auto-generated method stub
-				return false;
-			}
         };
     }
 }

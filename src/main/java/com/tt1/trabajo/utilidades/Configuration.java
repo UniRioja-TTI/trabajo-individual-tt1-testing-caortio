@@ -11,12 +11,13 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client;
+package org.openapitools.client;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class Configuration {
   public static final String VERSION = "1.0";
 

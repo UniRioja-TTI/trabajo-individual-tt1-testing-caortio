@@ -11,7 +11,7 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client;
+package org.openapitools.client;
 
 import java.util.List;
 import java.util.Map;

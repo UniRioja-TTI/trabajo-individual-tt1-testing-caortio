@@ -11,44 +11,60 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.model;
+package org.openapitools.client.model;
 
+import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.springframework.boot.json.JsonWriter;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
+import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
-import com.tt1.trabajo.utilidades.client.JSON;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * EmailResponse
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class EmailResponse {
   public static final String SERIALIZED_NAME_DONE = "done";
   @SerializedName(SERIALIZED_NAME_DONE)
+  @javax.annotation.Nullable
   private Boolean done;
 
   public static final String SERIALIZED_NAME_ERROR_MESSAGE = "errorMessage";
   @SerializedName(SERIALIZED_NAME_ERROR_MESSAGE)
+  @javax.annotation.Nullable
   private String errorMessage;
 
   public EmailResponse() {
   }
 
-  public EmailResponse done(Boolean done) {
+  public EmailResponse done(@javax.annotation.Nullable Boolean done) {
     this.done = done;
     return this;
   }
@@ -57,16 +73,17 @@ public class EmailResponse {
    * Get done
    * @return done
    */
+  @javax.annotation.Nullable
   public Boolean getDone() {
     return done;
   }
 
-  public void setDone(Boolean done) {
+  public void setDone(@javax.annotation.Nullable Boolean done) {
     this.done = done;
   }
 
 
-  public EmailResponse errorMessage(String errorMessage) {
+  public EmailResponse errorMessage(@javax.annotation.Nullable String errorMessage) {
     this.errorMessage = errorMessage;
     return this;
   }
@@ -75,11 +92,12 @@ public class EmailResponse {
    * Get errorMessage
    * @return errorMessage
    */
+  @javax.annotation.Nullable
   public String getErrorMessage() {
     return errorMessage;
   }
 
-  public void setErrorMessage(String errorMessage) {
+  public void setErrorMessage(@javax.annotation.Nullable String errorMessage) {
     this.errorMessage = errorMessage;
   }
 
@@ -186,18 +204,17 @@ public class EmailResponse {
 
        return (TypeAdapter<T>) new TypeAdapter<EmailResponse>() {
            @Override
+           public void write(JsonWriter out, EmailResponse value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
            public EmailResponse read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              return thisAdapter.fromJsonTree(jsonElement);
            }
-
-			@Override
-			public void write(com.google.gson.stream.JsonWriter out, EmailResponse value) throws IOException {
-				JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-	            elementAdapter.write(out, obj);
-				
-			}
 
        }.nullSafe();
     }

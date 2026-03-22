@@ -11,47 +11,62 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.model;
+package org.openapitools.client.model;
 
+import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import org.openapitools.jackson.nullable.JsonNullable;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
-import org.openapitools.jackson.nullable.JsonNullable;
-import org.springframework.boot.json.JsonWriter;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.tt1.trabajo.utilidades.client.JSON;
+import org.openapitools.client.JSON;
 
 /**
  * Solicitud
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class Solicitud {
   public static final String SERIALIZED_NAME_CANTIDADES_INICIALES = "cantidadesIniciales";
   @SerializedName(SERIALIZED_NAME_CANTIDADES_INICIALES)
+  @javax.annotation.Nullable
   private List<Integer> cantidadesIniciales;
 
   public static final String SERIALIZED_NAME_NOMBRE_ENTIDADES = "nombreEntidades";
   @SerializedName(SERIALIZED_NAME_NOMBRE_ENTIDADES)
-  
+  @javax.annotation.Nullable
   private List<String> nombreEntidades;
 
   public Solicitud() {
   }
 
-  public Solicitud cantidadesIniciales( List<Integer> cantidadesIniciales) {
+  public Solicitud cantidadesIniciales(@javax.annotation.Nullable List<Integer> cantidadesIniciales) {
     this.cantidadesIniciales = cantidadesIniciales;
     return this;
   }
@@ -68,17 +83,17 @@ public class Solicitud {
    * Get cantidadesIniciales
    * @return cantidadesIniciales
    */
-  
+  @javax.annotation.Nullable
   public List<Integer> getCantidadesIniciales() {
     return cantidadesIniciales;
   }
 
-  public void setCantidadesIniciales( List<Integer> cantidadesIniciales) {
+  public void setCantidadesIniciales(@javax.annotation.Nullable List<Integer> cantidadesIniciales) {
     this.cantidadesIniciales = cantidadesIniciales;
   }
 
 
-  public Solicitud nombreEntidades( List<String> nombreEntidades) {
+  public Solicitud nombreEntidades(@javax.annotation.Nullable List<String> nombreEntidades) {
     this.nombreEntidades = nombreEntidades;
     return this;
   }
@@ -95,12 +110,12 @@ public class Solicitud {
    * Get nombreEntidades
    * @return nombreEntidades
    */
-  
+  @javax.annotation.Nullable
   public List<String> getNombreEntidades() {
     return nombreEntidades;
   }
 
-  public void setNombreEntidades( List<String> nombreEntidades) {
+  public void setNombreEntidades(@javax.annotation.Nullable List<String> nombreEntidades) {
     this.nombreEntidades = nombreEntidades;
   }
 
@@ -212,17 +227,17 @@ public class Solicitud {
 
        return (TypeAdapter<T>) new TypeAdapter<Solicitud>() {
            @Override
+           public void write(JsonWriter out, Solicitud value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
            public Solicitud read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              return thisAdapter.fromJsonTree(jsonElement);
            }
-		   @Override
-		   public void write(com.google.gson.stream.JsonWriter out, Solicitud value) throws IOException {
-				JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-	            elementAdapter.write(out, obj);
-		
-		   }
 
        }.nullSafe();
     }

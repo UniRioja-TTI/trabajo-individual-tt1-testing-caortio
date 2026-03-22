@@ -11,7 +11,24 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.api;
+package org.openapitools.client.api;
+
+import org.openapitools.client.ApiCallback;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.Pair;
+import org.openapitools.client.ProgressRequestBody;
+import org.openapitools.client.ProgressResponseBody;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+
+
+import org.openapitools.client.model.EmailResponse;
+import org.openapitools.client.model.ProblemDetails;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -19,24 +36,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.reflect.TypeToken;
-import com.tt1.trabajo.utilidades.client.ApiCallback;
-import com.tt1.trabajo.utilidades.client.ApiClient;
-import com.tt1.trabajo.utilidades.client.ApiException;
-import com.tt1.trabajo.utilidades.client.ApiResponse;
-import com.tt1.trabajo.utilidades.client.Configuration;
-import com.tt1.trabajo.utilidades.client.Pair;
-
-public class ResultadosApi {
+public class EmailApi {
     private ApiClient localVarApiClient;
     private int localHostIndex;
     private String localCustomBaseUrl;
 
-    public ResultadosApi() {
+    public EmailApi() {
         this(Configuration.getDefaultApiClient());
     }
 
-    public ResultadosApi(ApiClient apiClient) {
+    public EmailApi(ApiClient apiClient) {
         this.localVarApiClient = apiClient;
     }
 
@@ -65,9 +74,9 @@ public class ResultadosApi {
     }
 
     /**
-     * Build call for resultadosPost
-     * @param nombreUsuario  (optional)
-     * @param tok  (optional)
+     * Build call for emailPost
+     * @param emailAddress  (optional)
+     * @param message  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -79,7 +88,7 @@ public class ResultadosApi {
         <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call resultadosPostCall(String nombreUsuario, Integer tok, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call emailPostCall(@javax.annotation.Nullable String emailAddress, @javax.annotation.Nullable String message, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -96,7 +105,7 @@ public class ResultadosApi {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/Resultados";
+        String localVarPath = "/Email";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -104,12 +113,12 @@ public class ResultadosApi {
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        if (nombreUsuario != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nombreUsuario", nombreUsuario));
+        if (emailAddress != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("emailAddress", emailAddress));
         }
 
-        if (tok != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("tok", tok));
+        if (message != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("message", message));
         }
 
         final String[] localVarAccepts = {
@@ -134,17 +143,17 @@ public class ResultadosApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call resultadosPostValidateBeforeCall(String nombreUsuario, Integer tok, final ApiCallback _callback) throws ApiException {
-        return resultadosPostCall(nombreUsuario, tok, _callback);
+    private okhttp3.Call emailPostValidateBeforeCall(@javax.annotation.Nullable String emailAddress, @javax.annotation.Nullable String message, final ApiCallback _callback) throws ApiException {
+        return emailPostCall(emailAddress, message, _callback);
 
     }
 
     /**
      * 
      * 
-     * @param nombreUsuario  (optional)
-     * @param tok  (optional)
-     * @return Object
+     * @param emailAddress  (optional)
+     * @param message  (optional)
+     * @return EmailResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -154,17 +163,17 @@ public class ResultadosApi {
         <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
      </table>
      */
-    public Object resultadosPost(String nombreUsuario,Integer tok) throws ApiException {
-        ApiResponse<Object> localVarResp = resultadosPostWithHttpInfo(nombreUsuario, tok);
+    public EmailResponse emailPost(@javax.annotation.Nullable String emailAddress, @javax.annotation.Nullable String message) throws ApiException {
+        ApiResponse<EmailResponse> localVarResp = emailPostWithHttpInfo(emailAddress, message);
         return localVarResp.getData();
     }
 
     /**
      * 
      * 
-     * @param nombreUsuario  (optional)
-     * @param tok  (optional)
-     * @return ApiResponse&lt;Object&gt;
+     * @param emailAddress  (optional)
+     * @param message  (optional)
+     * @return ApiResponse&lt;EmailResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -174,17 +183,17 @@ public class ResultadosApi {
         <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Object> resultadosPostWithHttpInfo(String nombreUsuario, Integer tok) throws ApiException {
-        okhttp3.Call localVarCall = resultadosPostValidateBeforeCall(nombreUsuario, tok, null);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+    public ApiResponse<EmailResponse> emailPostWithHttpInfo(@javax.annotation.Nullable String emailAddress, @javax.annotation.Nullable String message) throws ApiException {
+        okhttp3.Call localVarCall = emailPostValidateBeforeCall(emailAddress, message, null);
+        Type localVarReturnType = new TypeToken<EmailResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
      * 
-     * @param nombreUsuario  (optional)
-     * @param tok  (optional)
+     * @param emailAddress  (optional)
+     * @param message  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -196,10 +205,10 @@ public class ResultadosApi {
         <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call resultadosPostAsync(String nombreUsuario,Integer tok, final ApiCallback<Object> _callback) throws ApiException {
+    public okhttp3.Call emailPostAsync(@javax.annotation.Nullable String emailAddress, @javax.annotation.Nullable String message, final ApiCallback<EmailResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = resultadosPostValidateBeforeCall(nombreUsuario, tok, _callback);
-        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        okhttp3.Call localVarCall = emailPostValidateBeforeCall(emailAddress, message, _callback);
+        Type localVarReturnType = new TypeToken<EmailResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

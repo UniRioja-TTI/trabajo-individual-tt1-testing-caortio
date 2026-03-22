@@ -11,19 +11,18 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client;
-
-import java.io.IOException;
-
-import org.apache.tomcat.util.net.WriteBuffer.Sink;
+package org.openapitools.client;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+
+import java.io.IOException;
+
 import okio.Buffer;
 import okio.BufferedSink;
 import okio.ForwardingSink;
 import okio.Okio;
-import okio.Source;
+import okio.Sink;
 
 public class ProgressRequestBody extends RequestBody {
 
@@ -48,13 +47,13 @@ public class ProgressRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
-        BufferedSink bufferedSink = (BufferedSink) Okio.buffer((Source) sink((Sink) sink));
+        BufferedSink bufferedSink = Okio.buffer(sink(sink));
         requestBody.writeTo(bufferedSink);
         bufferedSink.flush();
     }
 
     private Sink sink(Sink sink) {
-        return (Sink) new ForwardingSink((okio.Sink) sink) {
+        return new ForwardingSink(sink) {
 
             long bytesWritten = 0L;
             long contentLength = 0L;

@@ -11,12 +11,13 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client;
-
-import java.io.IOException;
+package org.openapitools.client;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
+
+import java.io.IOException;
+
 import okio.Buffer;
 import okio.BufferedSource;
 import okio.ForwardingSource;

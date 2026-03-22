@@ -11,13 +11,14 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client;
+package org.openapitools.client;
 
 import java.util.Map;
 
 /**
  * Representing a Server configuration.
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class ServerConfiguration {
     public String URL;
     public String description;

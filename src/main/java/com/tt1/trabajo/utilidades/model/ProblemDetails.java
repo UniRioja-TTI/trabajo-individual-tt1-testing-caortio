@@ -11,51 +11,75 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.model;
+package org.openapitools.client.model;
 
+import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Set;
 
-import org.openapitools.jackson.nullable.JsonNullable;
-import org.springframework.boot.json.JsonWriter;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.tt1.trabajo.utilidades.client.JSON;
+import org.openapitools.client.JSON;
 
 /**
  * ProblemDetails
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class ProblemDetails {
   public static final String SERIALIZED_NAME_TYPE = "type";
+  @SerializedName(SERIALIZED_NAME_TYPE)
+  @javax.annotation.Nullable
   private String type;
 
   public static final String SERIALIZED_NAME_TITLE = "title";
+  @SerializedName(SERIALIZED_NAME_TITLE)
+  @javax.annotation.Nullable
   private String title;
 
   public static final String SERIALIZED_NAME_STATUS = "status";
+  @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private Integer status;
 
   public static final String SERIALIZED_NAME_DETAIL = "detail";
+  @SerializedName(SERIALIZED_NAME_DETAIL)
+  @javax.annotation.Nullable
   private String detail;
 
   public static final String SERIALIZED_NAME_INSTANCE = "instance";
+  @SerializedName(SERIALIZED_NAME_INSTANCE)
+  @javax.annotation.Nullable
   private String instance;
 
   public ProblemDetails() {
   }
 
-  public ProblemDetails type(String type) {
+  public ProblemDetails type(@javax.annotation.Nullable String type) {
     this.type = type;
     return this;
   }
@@ -64,16 +88,17 @@ public class ProblemDetails {
    * Get type
    * @return type
    */
+  @javax.annotation.Nullable
   public String getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(@javax.annotation.Nullable String type) {
     this.type = type;
   }
 
 
-  public ProblemDetails title(String title) {
+  public ProblemDetails title(@javax.annotation.Nullable String title) {
     this.title = title;
     return this;
   }
@@ -82,16 +107,17 @@ public class ProblemDetails {
    * Get title
    * @return title
    */
+  @javax.annotation.Nullable
   public String getTitle() {
     return title;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(@javax.annotation.Nullable String title) {
     this.title = title;
   }
 
 
-  public ProblemDetails status(Integer status) {
+  public ProblemDetails status(@javax.annotation.Nullable Integer status) {
     this.status = status;
     return this;
   }
@@ -100,16 +126,17 @@ public class ProblemDetails {
    * Get status
    * @return status
    */
+  @javax.annotation.Nullable
   public Integer getStatus() {
     return status;
   }
 
-  public void setStatus(Integer status) {
+  public void setStatus(@javax.annotation.Nullable Integer status) {
     this.status = status;
   }
 
 
-  public ProblemDetails detail(String detail) {
+  public ProblemDetails detail(@javax.annotation.Nullable String detail) {
     this.detail = detail;
     return this;
   }
@@ -118,16 +145,17 @@ public class ProblemDetails {
    * Get detail
    * @return detail
    */
+  @javax.annotation.Nullable
   public String getDetail() {
     return detail;
   }
 
-  public void setDetail(String detail) {
+  public void setDetail(@javax.annotation.Nullable String detail) {
     this.detail = detail;
   }
 
 
-  public ProblemDetails instance(String instance) {
+  public ProblemDetails instance(@javax.annotation.Nullable String instance) {
     this.instance = instance;
     return this;
   }
@@ -136,11 +164,12 @@ public class ProblemDetails {
    * Get instance
    * @return instance
    */
+  @javax.annotation.Nullable
   public String getInstance() {
     return instance;
   }
 
-  public void setInstance(String instance) {
+  public void setInstance(@javax.annotation.Nullable String instance) {
     this.instance = instance;
   }
 
@@ -299,6 +328,33 @@ public class ProblemDetails {
                         = gson.getDelegateAdapter(this, TypeToken.get(ProblemDetails.class));
 
        return (TypeAdapter<T>) new TypeAdapter<ProblemDetails>() {
+           @Override
+           public void write(JsonWriter out, ProblemDetails value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
+                 }
+               }
+             }
+             elementAdapter.write(out, obj);
+           }
 
            @Override
            public ProblemDetails read(JsonReader in) throws IOException {
@@ -327,35 +383,6 @@ public class ProblemDetails {
              }
              return instance;
            }
-
-			@Override
-			public void write(com.google.gson.stream.JsonWriter out, ProblemDetails value) throws IOException {
-				JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-	            obj.remove("additionalProperties");
-	            // serialize additional properties
-	            if (value.getAdditionalProperties() != null) {
-	              for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
-	                if (entry.getValue() instanceof String)
-	                  obj.addProperty(entry.getKey(), (String) entry.getValue());
-	                else if (entry.getValue() instanceof Number)
-	                  obj.addProperty(entry.getKey(), (Number) entry.getValue());
-	                else if (entry.getValue() instanceof Boolean)
-	                  obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
-	                else if (entry.getValue() instanceof Character)
-	                  obj.addProperty(entry.getKey(), (Character) entry.getValue());
-	                else {
-	                  JsonElement jsonElement = gson.toJsonTree(entry.getValue());
-	                  if (jsonElement.isJsonArray()) {
-	                    obj.add(entry.getKey(), jsonElement.getAsJsonArray());
-	                  } else {
-	                    obj.add(entry.getKey(), jsonElement.getAsJsonObject());
-	                  }
-	                }
-	              }
-	            }
-	            elementAdapter.write(out, obj);
-				
-			}
 
        }.nullSafe();
     }

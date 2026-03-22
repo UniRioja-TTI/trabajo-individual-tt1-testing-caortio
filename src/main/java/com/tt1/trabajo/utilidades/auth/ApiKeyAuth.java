@@ -11,15 +11,16 @@
  */
 
 
-package com.tt1.trabajo.utilidades.client.auth;
+package org.openapitools.client.auth;
+
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Pair;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
-import com.tt1.trabajo.utilidades.client.ApiException;
-import com.tt1.trabajo.utilidades.client.Pair;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-03-06T10:36:02.367926200+01:00[Europe/Madrid]", comments = "Generator version: 7.20.0")
 public class ApiKeyAuth implements Authentication {
   private final String location;
   private final String paramName;
@@ -56,26 +57,24 @@ public class ApiKeyAuth implements Authentication {
     this.apiKeyPrefix = apiKeyPrefix;
   }
 
-
   @Override
   public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams,
-			String payload, String method, URI uri) throws ApiException {
-		if (apiKey == null) {
-		      return;
-		    }
-		    String value;
-		    if (apiKeyPrefix != null) {
-		      value = apiKeyPrefix + " " + apiKey;
-		    } else {
-		      value = apiKey;
-		    }
-		    if ("query".equals(location)) {
-		      queryParams.add(new Pair(paramName, value));
-		    } else if ("header".equals(location)) {
-		      headerParams.put(paramName, value);
-		    } else if ("cookie".equals(location)) {
-		      cookieParams.put(paramName, value);
-		    }
-		
+                           String payload, String method, URI uri) throws ApiException {
+    if (apiKey == null) {
+      return;
+    }
+    String value;
+    if (apiKeyPrefix != null) {
+      value = apiKeyPrefix + " " + apiKey;
+    } else {
+      value = apiKey;
+    }
+    if ("query".equals(location)) {
+      queryParams.add(new Pair(paramName, value));
+    } else if ("header".equals(location)) {
+      headerParams.put(paramName, value);
+    } else if ("cookie".equals(location)) {
+      cookieParams.put(paramName, value);
+    }
   }
 }

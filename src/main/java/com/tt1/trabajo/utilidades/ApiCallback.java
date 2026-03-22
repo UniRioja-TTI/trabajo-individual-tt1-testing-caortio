@@ -9,10 +9,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package com.tt1.trabajo.utilidades.client;
 
-import java.util.List;
+
+package org.openapitools.client;
+
+import java.io.IOException;
+
 import java.util.Map;
+import java.util.List;
 
 /**
  * Callback for asynchronous API call.
